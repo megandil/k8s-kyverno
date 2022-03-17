@@ -14,7 +14,7 @@ Bienvenido al TFG sobre la implementación del motor de políticas Kyverno en k8
 
 **Kyverno** puede específicar en sus políticas sobre qué recursos quiere auditar mediante el Kind, nombre o etiquetas, soportando comodines como nombres. Las políticas se aplican sobre recursos que se van a crear, en caso de recursos ya existentes Kyverno notificará aquellos que no cumplan las políticas.
 
-Aquí puedes ver un esquema a alto nivel sobre el funcionamiento:
+Aquí puedes ver un esquema a alto nivel sobre su funcionamiento:
 
 ![Funcionamiento de Kyverno](https://github.com/megandil/k8s-kyverno/blob/main/images/kyverno-architecture.png)
 
