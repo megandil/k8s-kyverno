@@ -3,8 +3,9 @@ Bienvenido al TFG sobre la implementación del motor de políticas Kyverno en k8
 
 ## Tabla de contenido
 
-- [¿Que es Kyverno?](#¿que-es-kyverno?)
-- [Cómo trabaja Kyverno](#como-trabaja-kyverno)
+- [¿Que es Kyverno?](#¿que-es-kyverno?).
+- [Cómo trabaja Kyverno](#como-trabaja-kyverno).
+- [Políticas y reglas](#politicas-y-reglas).
 
 ### ¿Que es Kyverno?
 **Kyverno** es un motor de políticas diseñado para Kubernetes. En **Kyverno**, las políticas se escriben en el mismo lenguaje que la definición de cualquier recurso en Kubernetes y utiliza herramientas con las que ya estamos familiarizados como Git o Kubectl, por lo que que en cuanto a lenguaje y herramientas nos sentiremos mucho más cómodos. Las políticas de **Kyverno** pueden validar, mutar o generar recursos de Kubernetes. Se puede utilizar **Kyverno CLI** para testear políticas o validar recursos como parte de un Pipeline de un CI/CD.
@@ -18,3 +19,9 @@ Aquí puedes ver un esquema a alto nivel sobre su funcionamiento:
 
 ![Funcionamiento de Kyverno](https://github.com/megandil/k8s-kyverno/blob/main/images/kyverno-architecture.png)
 
+
+### Políticas y reglas
+
+Una política de **Kyverno** consiste en una colección de reglas. Cada regla consta de una delaración de "match" o una declaración "exclude", o ambas. Como habrás intuido con "match" se refiere a todo recurso que cumpla la regla y con "exclude" podremos excluir recursos para que se encuentren exentos de cumplir la regla. En la declaración "match" o "exclude" será donde especifiquemos los recursos sobre los que tendrá monitorización Kyverno, podrían tratarse de pods, namespaces,nodos,etc. Cada regla deberá contener un único tipo de declaración, que podría ser de los siguientes tipos: validación (validate), mutación (mutate), generación (generate) o verificación de imágenes (verifyImages).
+
+![Funcionamiento de Políticas](https://github.com/megandil/k8s-kyverno/blob/main/images/Kyverno-Policy-Structure.png)
