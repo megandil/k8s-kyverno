@@ -4,7 +4,7 @@ Bienvenido al TFG sobre la implementación del motor de políticas Kyverno en k8
 ## Tabla de contenido
 
 - [¿Que es Kyverno?](#¿que-es-kyverno?).
-- [Cómo trabaja Kyverno](#como-trabaja-kyverno).
+- [Cómo trabaja Kyverno](#cómo-trabaja-kyverno).
 - [Políticas y reglas](#politicas-y-reglas).
 
 ### ¿Que es Kyverno?
