@@ -66,7 +66,6 @@ Las reglas de validación son probablemente los tipos de reglas más comunes y p
 Como ejemplo, mostraré una política ClusterPolicy que se encargará mediante reglas de validación de comprobar que todos los namespace que se creen contengan la etiqueta "departamento" con el valor "produccion":
 
 ```
-		
 apiVersion: kyverno.io/v1
 # El kind `ClusterPolicy` indica que la política se configura en todo el cluster.
 kind: ClusterPolicy
@@ -94,5 +93,59 @@ spec:
         metadata:
           labels:
             departamento: produccion
-		
   ```
+
+Para aplicar la regla simplemente almacenamos la política en un fichero .yaml y realizamos un:
+<pre><code>kubectl apply -f requiere-ns-etiqueta-dept.yaml</code></pre>
+
+Como expliqué anteriormente utiliza kubernetes para la implementación de las políticas por lo que hará uso de "kubectl". Una vez hayamos aplicado la política
+intentaremos crear un namespace que no cumpla la política para ver que ocurre:
+
+```
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prod-prueba
+  labels:
+    departamento: desarrollo
+```
+
+Creamos el namespace para ver que sucede:
+
+```
+kubectl apply -f namespace-falla-label.yaml
+```
+
+Y como no cumple la política nos devolverá el siguiente error:
+
+```
+Error from server: error when creating "namespace-falla-label.yaml": admission webhook "validate.kyverno.svc-fail" denied the request: 
+
+resource Namespace//prod-prueba was blocked due to the following policies
+
+requiere-ns-etiqueta-dept:
+
+  requiere-ns-etiqueta-dept: 'validation error: Necesitas la etiqueta `departamento`
+
+    con el valor `produccion` en los nuevos namespaces que vayas a crear. Rule requiere-ns-etiqueta-dept
+
+    failed at path /metadata/labels/departamento/'
+```
+
+Para que cumpla la política vamos a cambiar la línea de definición de la etiqueta y vamos a asignar el valor de "produccion":
+
+```
+  labels:
+    departamento: produccion
+```
+
+Intentamos de nuevo crear el namespace y comprobamos que crea el namespace:
+
+```
+kubectl apply -f namespace-correcto-label.yaml 
+
+namespace/prod-prueba created
+```
+
+Puedes ejecutar esta prueba en la carpeta `/pruebas/validacion` de este repositorio.
+
