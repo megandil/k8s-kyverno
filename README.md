@@ -85,7 +85,7 @@ spec:
       - resources:
           kinds:
           - Namespace
-    # En el parámetro `validate` definimos la regla que se comparará con el recurso. Si lo configurado comparado con el recurso resulta ser verdadero, entonces se         # permite la petición y se ejecuta, en cambio, si es falsa, se bloquea (dependiendo de "validationFailureAction").
+    # En el parámetro `validate` definimos la regla que se comparará con el recurso. Si lo configurado comparado con el recurso resulta ser verdadero, entonces se permite la petición y se ejecuta, en cambio, si es falsa, se bloquea (dependiendo de "validationFailureAction").
     validate:
       # En `message` definimos el mensaje que queremos que muestre en caso de que la regla no se cumpla.
       message: "Necesitas la etiqueta `departamento` con el valor `produccion` en los nuevos namespaces que vayas a crear."
