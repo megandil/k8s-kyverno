@@ -68,7 +68,7 @@ Como ejemplo, mostraré una política ClusterPolicy que se encargará mediante r
 ```
 		
 apiVersion: kyverno.io/v1
-# El kind `ClusterPolicy` configura que la política se configura en todo el cluster.
+# El kind `ClusterPolicy` indica que la política se configura en todo el cluster.
 kind: ClusterPolicy
 metadata:
   name: requiere-ns-etiqueta-dept
