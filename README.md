@@ -327,7 +327,7 @@ spec:
 ```
 
 
-Si borramos el pod y lo volvemos a crear podremos comprobar que la imagen no se vuelve a descargar ya que al crear el recurso el valor de "imagePullPolicy" está configurado como "IfNotPresent" lo que significa que si la imagen e encuentra en el cluster, no se debe hacer un Pull de nuevo:
+Si borramos el pod y lo volvemos a crear podremos comprobar que la imagen no se vuelve a descargar ya que al crear el recurso el valor de "imagePullPolicy" está configurado como "IfNotPresent" lo que significa que si la imagen se encuentra en el cluster, no se debe hacer un Pull de nuevo:
 
 ```
 kubectl describe pod/pod-nginx
