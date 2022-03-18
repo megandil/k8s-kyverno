@@ -57,3 +57,42 @@ Este parámetro se puede configurar tanto en una política de validación como u
 
 - **webhookTimeoutSeconds**: Especifica el tiempo máximo en segundos permitido para aplicar la política. El tiempo de espera por defecto es de 10s. El valor debe estar entre 1 y 30 segundos.
 
+### Tipos de políticas
+Existen 3 tipos de políticas, y son los siguientes:
+
+#### Validación
+Las reglas de validación son probablemente los tipos de reglas más comunes y prácticos con los que se trabaja, y el principal tipo de uso para los controladores de admisión como Kyverno.  En una regla de validación, se definen las propiedades obligatorias con las que debe crearse un recurso. Cuando un usuario o proceso crea un recurso, **Kyverno** comprueba las propiedades del recurso con la regla de validación. Si esas propiedades se validan, es decir, si hay coinciden y se realiza el acuerdo entre **Kyverno** y la petición, se permite la creación del recurso. Si esas propiedades son diferentes, la creación se bloquea. El comportamiento de **Kyverno** ante una validación fallida dependerá del valor definido en el campo "validationFailureAction" o "validationFailureActionOverride".Que como expliqué anteriormente puede configurarse para bloquear las peticiones no válidas (enforce) o simplemente auditarlas (audit). Los recursos que infrinjan una regla audit registrarán un evento en el recurso en cuestión.
+
+Como ejemplo, mostraré una política ClusterPolicy que se encargará mediante reglas de validación de comprobar que todos los namespace que se creen contengan la etiqueta "departamento" con el valor "produccion":
+
+```
+		
+apiVersion: kyverno.io/v1
+# El kind `ClusterPolicy` configura que la política se configura en todo el cluster.
+kind: ClusterPolicy
+metadata:
+  name: requiere-ns-etiqueta-dept
+# En `spec` definimoslas propiedades de la política.
+spec:
+  # El parámetro `validationFailureAction` le dice a Kyverno si permite las peticiones pero las reporta (`audit`) o las bloquea (`enforce`).
+  validationFailureAction: enforce
+  # En el parámetro `rules` configuramos una o más reglas que se deben cumplir.
+  rules:
+  - name: requiere-ns-etiqueta-dept
+    # En el parámetro `match` declaramos los recursos sobre los que se aplica la política. En este caso en cualquier Namespace.
+    match:
+      any:
+      - resources:
+          kinds:
+          - Namespace
+    # En el parámetro `validate` definimos la regla que se comparará con el recurso. Si lo configurado comparado con el recurso resulta ser verdadero, entonces se         # permite la petición y se ejecuta, en cambio, si es falsa, se bloquea (dependiendo de "validationFailureAction").
+    validate:
+      # En `message` definimos el mensaje que queremos que muestre en caso de que la regla no se cumpla.
+      message: "Necesitas la etiqueta `departamento` con el valor `produccion` en los nuevos namespaces que vayas a crear."
+      # En `pattern` definimos el patrón que será validado en el recurso. En este caso, apuntamos a `metadata.labels` con `departamento=produccion`.
+      pattern:
+        metadata:
+          labels:
+            departamento: produccion
+		
+  ```
