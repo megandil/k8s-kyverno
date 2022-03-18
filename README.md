@@ -6,6 +6,8 @@ Bienvenido al TFG sobre la implementación del motor de políticas Kyverno en k8
 - [¿Que es Kyverno?](#que-es-kyverno).
 - [Cómo trabaja Kyverno](#cómo-trabaja-kyverno).
 - [Instalación de Kyverno + K3S](#instalación-de-kyverno-y-k3s).
+  - [K3S](#k3s).
+  - [Kyverno](#kyverno).
 - [Políticas y reglas](#políticas-y-reglas).
 - [Configuración de políticas](#configuración-de-políticas).
 
@@ -26,7 +28,83 @@ Aquí puedes ver un esquema a alto nivel sobre su funcionamiento:
 ![Funcionamiento de Kyverno](https://github.com/megandil/k8s-kyverno/blob/main/images/kyverno-architecture.png)
 
 ### Instalación de Kyverno y K3S
+A continuación vamos a instalar los dos servicios necesario:
 
+#### K3S
+K3S nos proporciona un script de instalación que pone en marcha el cluster automáticamente:
+
+```
+curl -sfL https://get.k3s.io | sh -
+```
+
+Tras ejecutar ese script tendremos k3s configurado y listo para usar con kubectl. Para ver si el cluster se ha creado correctamente ejecutamos:
+
+```
+kubectl get nodes
+```
+
+Y nos devolverá algo así (cambiando el nombre por el de tu sistema):
+
+```
+NAME     STATUS   ROLES                  AGE    VERSION
+
+debian   Ready    control-plane,master   3d2h   v1.22.7+k3s1
+```
+
+Si queremos desinstalar k3s, simplemente ejecutamos el script `k3s-uninstall.sh` alojado en `/usr/local/bin` tras realizar la instalación.
+
+
+#### Kyverno
+Para instalar Kyverno vamos a usar un Chart de Helm:
+
+```
+# Añadimos el repositorio Helm
+helm repo add kyverno https://kyverno.github.io/kyverno/
+
+# Actualizamos lista de repositorios helm.
+helm repo update
+
+# Instalamos el chart de Helm en un nuevo namespace llamado "kyverno"
+helm install kyverno kyverno/kyverno -n kyverno --create-namespace
+```
+
+Para comprobar que está en funcionamiento vamos a revisar el estado de los Pods del namespace donde hemos instalado Kyverno:
+
+```
+kubectl get pods -n kyverno
+```
+
+```
+NAME                      READY   STATUS    RESTARTS      AGE
+
+kyverno-7fc5f88f8-h5jbr   1/1     Running   5 (48m ago)   3d2h
+```
+
+Como podemos ver se encuentra corriendo el pod de Kyverno.
+
+Para ver las políticas aplicadas podemos usar la siguiente instrucción:
+
+```
+kubectl get ClusterPolicy
+```
+
+```
+NAME                        BACKGROUND   ACTION    READY
+
+requiere-ns-etiqueta-dept   true         enforce   true
+```
+
+Y para eliminar todas las políticas ejecutamos lo siguiente:
+
+```
+kubectl delete cpol --all
+```
+
+Para desinstalar Kyverno simplemente ejecutamos el siguiente comando:
+
+```
+helm uninstall kyverno kyverno/kyverno --namespace kyverno
+```
 
 
 ### Políticas y reglas
