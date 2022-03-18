@@ -5,7 +5,7 @@ Bienvenido al TFG sobre la implementación del motor de políticas Kyverno en k8
 
 - [¿Que es Kyverno?](#que-es-kyverno).
 - [Cómo trabaja Kyverno](#cómo-trabaja-kyverno).
-- [Instalación de Kyverno + K3S](#instalación-de-kyverno-+-k3s).
+- [Instalación de Kyverno + K3S](#instalación-de-kyverno-k3s).
 - [Políticas y reglas](#políticas-y-reglas).
 - [Configuración de políticas](#configuración-de-políticas).
 
