@@ -285,7 +285,7 @@ metadata:
  labels:
    app: nginx
    service: web
-spec: # required
+spec:
  containers:
    - image: nginx:latest
      name: contenedor-nginx
