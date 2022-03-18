@@ -5,6 +5,7 @@ Bienvenido al TFG sobre la implementación del motor de políticas Kyverno en k8
 
 - [¿Que es Kyverno?](#que-es-kyverno).
 - [Cómo trabaja Kyverno](#cómo-trabaja-kyverno).
+- [Instalación de Kyverno + K3S](#instalación-de-kyverno-+-k3s).
 - [Políticas y reglas](#políticas-y-reglas).
 - [Configuración de políticas](#configuración-de-políticas).
 
@@ -23,6 +24,8 @@ Bienvenido al TFG sobre la implementación del motor de políticas Kyverno en k8
 Aquí puedes ver un esquema a alto nivel sobre su funcionamiento:
 
 ![Funcionamiento de Kyverno](https://github.com/megandil/k8s-kyverno/blob/main/images/kyverno-architecture.png)
+
+### Instalación de Kyverno + K3S
 
 
 
@@ -148,4 +151,3 @@ namespace/prod-prueba created
 ```
 
 Puedes ejecutar esta prueba en la carpeta `/pruebas/validacion` de este repositorio.
-
