@@ -11,8 +11,8 @@ Bienvenido al TFG sobre la implementación del motor de políticas Kyverno en k8
 - [Políticas y reglas](#políticas-y-reglas).
 - [Configuración de políticas](#configuración-de-políticas).
 - [Tipos de políticas](#tipos-de-políticas).
-  - [Validación](#validacion).
-
+  - [Validación](#validación).
+  - [Mutación](#mutación).
 
 
 ### ¿Que es Kyverno?
@@ -345,4 +345,4 @@ Events:
 
 ```
 
-Puedes ejecutar esta prueba con los ficheros alojados en la carpeta `/pruebas/mutacion` de este repositorio
+Puedes ejecutar esta prueba con los ficheros alojados en la carpeta `/pruebas/mutacion` de este repositorio.
