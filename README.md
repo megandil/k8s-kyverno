@@ -230,4 +230,119 @@ kubectl apply -f namespace-correcto-label.yaml
 namespace/prod-prueba created
 ```
 
-Puedes ejecutar esta prueba en la carpeta `/pruebas/validacion` de este repositorio.
+Puedes ejecutar esta prueba con los ficheros alojados en la carpeta `/pruebas/validacion` de este repositorio.
+
+
+
+#### Mutación
+ 
+Una regla de mutación puede utilizarse para modificar los recursos que coincidan con la regla y se escribe como un parche JSON RFC 6902 o un "patchStrategicMerge". Si utilizamos un parche JSON, podremos especificar cambios precisos sobre el recurso que estamos creando. Independientemente del método, una regla de mutación se utiliza cuando un objeto necesita ser modificado de una manera determinada.
+
+La mutación de recursos se produce antes de la validación, por lo que las reglas de validación no deben contradecir los cambios realizados por las reglas de mutación.
+
+En el ejemplo que vamos a ver vamos a utilizar una regla de mutación de tipo "patchStrategicMerge", ya que no es necesario mutar el recurso con cambios específiicos al tratarse de una prueba básica. La política de prueba que vamos a aplicar cambia el valor del parámetro "imagePullPolicy" del recurso (pods en este caso) a "IfNotPresent" en caso de que la imagen sea "latest":
+
+```
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: cambiar-image-pull-policy
+spec:
+  rules:
+    - name: cambiar-image-pull-policy
+      match:
+        any:
+        - resources:
+            kinds:
+            - Pod
+      mutate:
+        patchStrategicMerge:
+          spec:
+            containers:
+              # Busca coincidencias de recursos que utilicen una imagen con etiqueta latest
+              - (image): "*:latest"
+                # Establece el valor del parámetro imagePullPolicy a "IfNotPresent"
+                imagePullPolicy: "IfNotPresent"
+```
+
+Aplicamos la política:
+
+```
+kubectl apply -f cambiar-image-pull-policy.yaml 
+```
+
+```
+clusterpolicy.kyverno.io/set-image-pull-policy created
+```
+
+Una vez creado vamos a generar un pod de prueba con el parámetro "imagePullPolicy" con el valor "Always" para ver si al crearlo nos lo cambia. Aquí la definición del pod:
+
+```
+apiVersion: v1 
+kind: Pod
+metadata:        
+ name: pod-nginx           
+ labels:
+   app: nginx
+   service: web
+spec: # required
+ containers:
+   - image: nginx:latest
+     name: contenedor-nginx
+     imagePullPolicy: Always
+```
+
+Y creamos el pod:
+
+```
+kubectl apply -f pod.yaml
+```
+
+Al generarlo podremos ver como ha descargado la imagen por primera vez utilizando el comando `kubectl describe pod/pod-nginx`:
+
+```
+Events:
+
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  19s   default-scheduler  Successfully assigned default/pod-nginx to debian
+  Normal  Pulling    19s   kubelet            Pulling image "nginx:latest"
+  Normal  Pulled     12s   kubelet            Successfully pulled image "nginx:latest" in 6.645054883s
+  Normal  Created    12s   kubelet            Created container contenedor-nginx
+  Normal  Started    12s   kubelet            Started container contenedor-nginx
+```
+
+Y podrás comprobar como el contenedor ha cambiaddo debido a la política de mutación aplicada, observando el valor "IfNotPresent" en el parámetro "imagePullPolicy". Para acceder a ver el valor del parámetro ejecutamos:
+
+```
+kubectl get pod pod-nginx -o yaml
+```
+
+```
+spec:
+  containers:
+  - image: nginx:latest
+    imagePullPolicy: IfNotPresent
+    name: contenedor-nginx
+```
+
+
+Si borramos el pod y lo volvemos a crear podremos comprobar que la imagen no se vuelve a descargar ya que al crear el recurso el valor de "imagePullPolicy" está configurado como "IfNotPresent" lo que significa que si la imagen e encuentra en el cluster, no se debe hacer un Pull de nuevo:
+
+```
+kubectl describe pod/pod-nginx
+```
+
+```
+Events:
+
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  3s    default-scheduler  Successfully assigned default/pod-nginx to debian
+  Normal  Pulled     2s    kubelet            Container image "nginx:latest" already present on machine
+  Normal  Created    2s    kubelet            Created container contenedor-nginx
+  Normal  Started    2s    kubelet            Started container contenedor-nginx
+
+```
+
+Puedes ejecutar esta prueba con los ficheros alojados en la carpeta `/pruebas/mutacion` de este repositorio
