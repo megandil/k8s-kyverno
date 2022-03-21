@@ -346,3 +346,15 @@ Events:
 ```
 
 Puedes ejecutar esta prueba con los ficheros alojados en la carpeta `/pruebas/mutacion` de este repositorio.
+
+#### Generación
+
+Las reglas de generación se utilizan para crear un recurso o recursos adicionales cuando se crea un recurso o se modifica se definición (por ejemplo modificar el fichero de definición .yaml de recurso). Resultan útiles para crear recursos de apoyo como RoleBindings o NetworkPolicies para un Namespace.
+
+Las reglas de generación acepta 2 tipos de bloques principales, "match" y "exclude", así como otras reglas no tan destacadas. Por lo tanto, el trigger desencadenante del uso de la política consiste en la generación de recursos, es decir, cuando se genere un recurso y coincida con la política, la aplicará. También es posible hacer coincidir (match) o excluir (exclude) las solicitudes de la API en función de los sujetos, los roles, etc.
+
+La regla de generación solo se aplica cuando realizamos un "Create". Para mantener los recursos sincronizados tras realizar cambios, se puede utilizar el parámetro "synchronize". Cuando la sincronización se establece como "true", el recurso generado se mantiene sincronizado con el recurso de origen (que puede ser definido como parte de la política o puede ser un recurso existente), y los recursos generados no pueden ser modificados por los usuarios. Si la sincronización se establece como "false", los usuarios pueden actualizar o eliminar el recurso generado directamente.
+
+Para probar este tipo de políticas, vamos a generar recursos ResourceQuota y LimitRange por defecto cada vez que se genere un namespace, de tal modo que tendremos controlados los recursos de nuestro cluster.
+
+
