@@ -357,4 +357,116 @@ La regla de generación solo se aplica cuando realizamos un "Create". Para mante
 
 Para probar este tipo de políticas, vamos a generar recursos ResourceQuota y LimitRange por defecto cada vez que se genere un namespace, de tal modo que tendremos controlados los recursos de nuestro cluster.
 
+El fichero de definición de la política es el siguiente:
 
+```
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: quota-ns
+  annotations:
+    policies.kyverno.io/title: Add Quota
+    policies.kyverno.io/category: Multi-Tenancy
+    policies.kyverno.io/subject: ResourceQuota, LimitRange
+    policies.kyverno.io/description: >-
+      Para tener un mayor control sobre el numero de recursos creados en un namespace es recomendable
+      asignas recursos ResourceQuota o LimitRange. Esta política genera ambos recursos
+      cuando se crea un namespace.      
+spec:
+  rules:
+  - name: generar-resourcequota
+    match:
+      resources:
+        kinds:
+        - Namespace
+    generate:
+      kind: ResourceQuota
+      name: resourcequota-default
+      synchronize: true
+      namespace: "{{request.object.metadata.name}}"
+      data:
+        spec:
+          hard:
+            requests.cpu: '4'
+            requests.memory: '16Gi'
+            limits.cpu: '4'
+            limits.memory: '16Gi'
+  - name: generar-limitrange
+    match:
+      resources:
+        kinds:
+        - Namespace
+    generate:
+      kind: LimitRange
+      name: limitrange-default
+      synchronize: true
+      namespace: "{{request.object.metadata.name}}"
+      data:
+        spec:
+          limits:
+          - default:
+              cpu: 500m
+              memory: 1Gi
+            defaultRequest:
+              cpu: 200m
+              memory: 256Mi
+            type: Container
+```
+
+Aplicamos la política:
+
+```
+kubectl apply -f quota-limitrange.yaml 
+
+clusterpolicy.kyverno.io/quota-ns created
+
+```
+
+Y para comprobar vamos a crear un namespace cuya definición muestro a continuación:
+
+```
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prueba-generacion
+```
+
+Creamos el namespace:
+
+```
+kubectl apply -f namespace.yaml 
+```
+
+```
+namespace/prueba-generacion created
+```
+
+Al crearlo realizaremos un "kubectl describe" para obtener los datos del namespace:
+
+```
+kubectl describe ns prueba-generacion
+```
+
+Y podrás observar como se han establecido las "quotas" y "limitrange":
+
+```
+Resource Quotas
+
+  Name:            resourcequota-default
+  Resource         Used  Hard
+  --------         ---   ---
+  limits.cpu       0     4
+  limits.memory    0     16Gi
+  requests.cpu     0     4
+  requests.memory  0     16Gi
+
+
+Resource Limits
+ Type       Resource  Min  Max  Default Request  Default Limit  Max Limit/Request Ratio
+ ----       --------  ---  ---  ---------------  -------------  -----------------------
+ Container  cpu       -    -    200m             500m           -
+ Container  memory    -    -    256Mi            1Gi            -
+
+```
+
+Puedes ejecutar esta prueba con los ficheros alojados en la carpeta `/pruebas/generacion` de este repositorio.
