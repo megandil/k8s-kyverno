@@ -13,6 +13,7 @@ Bienvenido al TFG sobre la implementación del motor de políticas Kyverno en k8
 - [Tipos de políticas](#tipos-de-políticas).
   - [Validación](#validación).
   - [Mutación](#mutación).
+  - [Generación](#generación).
 
 
 ### ¿Que es Kyverno?
