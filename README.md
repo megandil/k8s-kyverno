@@ -478,5 +478,5 @@ Puedes ejecutar esta prueba con los ficheros alojados en la carpeta `/pruebas/ge
 
 Policy Reporter UI es una herramienta gráfica que nos permite ver de una forma más visual y atractiva las reglas de validación de Kyverno. Como ya expliqué anteriormente, Kyverno ofrece dos modos en cuanto a reglas de validación, "enforce" y "audit", pues cuando configuramos en "enforce" bloquea directamente las peticiones pero cuando la regla es de tipo "audit" crea PolicyReports que pueden ser obtenidos mediante Kubectl, pero con esta aplicación veremos ese tipo de reglas de una manera mas amigable mediante una interfaz web.
 
-Con Policy Reporter UI podemos observar qué recursos de nuestro cluster cumplen la reglas que tenemos definidas y qué recursos no las cumplen, de tal manera que podremos detectar errores más rápidamente.
+Con Policy Reporter UI podemos observar qué recursos de nuestro cluster cumplen la reglas que tenemos definidas y qué recursos no las cumplen, de tal manera que podremos detectar errores más rápidamente. En principio, Policy Reporter funciona sin necesidad de tener Kyverno instalado ya que mira los PolicyReports de los ClusterPolicies de k8s, pero en este caso utilizaremos el plugin de Kyverno que trae incorporado Policy Reporter.
 
