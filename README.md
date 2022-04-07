@@ -15,6 +15,7 @@ Bienvenido al TFG sobre la implementación del motor de políticas Kyverno en k8
   - [Mutación](#mutación).
   - [Generación](#generación).
 - [Policy Reporter UI](#policy-reporter-UI).
+  - [Instalación](#instalación).
 
 
 ### ¿Que es Kyverno?
@@ -479,4 +480,29 @@ Puedes ejecutar esta prueba con los ficheros alojados en la carpeta `/pruebas/ge
 Policy Reporter UI es una herramienta gráfica que nos permite ver de una forma más visual y atractiva las reglas de validación de Kyverno. Como ya expliqué anteriormente, Kyverno ofrece dos modos en cuanto a reglas de validación, "enforce" y "audit", pues cuando configuramos en "enforce" bloquea directamente las peticiones pero cuando la regla es de tipo "audit" crea PolicyReports que pueden ser obtenidos mediante Kubectl, pero con esta aplicación veremos ese tipo de reglas de una manera mas amigable mediante una interfaz web.
 
 Con Policy Reporter UI podemos observar qué recursos de nuestro cluster cumplen la reglas que tenemos definidas y qué recursos no las cumplen, de tal manera que podremos detectar errores más rápidamente. En principio, Policy Reporter funciona sin necesidad de tener Kyverno instalado ya que mira los PolicyReports de los ClusterPolicies de k8s, pero en este caso utilizaremos el plugin de Kyverno que trae incorporado Policy Reporter.
+
+
+#### Instalación
+
+Antes de nada tendremos que crear el namespace donde vamos a realizar la instalación, es importante que el nombre sea "**policy-reporter**".
+
+```
+kubectl create ns policy-reporter
+```
+
+Y aplicamos los siguientes manifiestos alojados en la carpeta del siguiente [repositorio](https://github.com/megandil/kyverno-argocd/tree/main/policy-ui-reporter-app).
+
+```
+kubectl apply -f https://raw.githubusercontent.com/megandil/kyverno-argocd/main/policy-ui-reporter-app/config-secret.yaml
+kubectl apply -f https://raw.githubusercontent.com/megandil/kyverno-argocd/main/policy-ui-reporter-app/install.yaml
+kubectl apply -f https://raw.githubusercontent.com/megandil/kyverno-argocd/main/policy-ui-reporter-app/ingress.yaml
+```
+
+Y solo tendrías que configurarte una entrada en el `/etc/hosts` de tu máquina que reuelva el nombre definido en el ingress, en este caso la entrada es la siguiente:
+
+```
+127.0.0.1         www.argocd.org
+```
+
+Si quieres cambiar la dirección, deberás modificar el fichero `ingress.yaml` y especificar la que quieras.
 
