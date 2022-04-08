@@ -16,6 +16,8 @@ Bienvenido al TFG sobre la implementación del motor de políticas Kyverno en k8
   - [Generación](#generación).
 - [Policy Reporter UI](#policy-reporter-UI).
   - [Instalación](#instalación).
+  - [Funcionamiento](#funcionamiento).
+
 
 
 ### ¿Que es Kyverno?
