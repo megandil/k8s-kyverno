@@ -506,3 +506,10 @@ Y solo tendrías que configurarte una entrada en el `/etc/hosts` de tu máquina 
 
 Si quieres cambiar la dirección, deberás modificar el fichero `ingress.yaml` y especificar la que quieras.
 
+
+#### Funcionamiento
+
+Una vez instalado, podremos acceder a la URL que hemos añadido en nuestro /etc/hosts a través de un navegador web,y nos mostrará el Dashboard de Policy Reporter UI:
+
+![policy reporter ui](https://github.com/megandil/k8s-kyverno/blob/main/images/policy-reporter-ui.png)
+
