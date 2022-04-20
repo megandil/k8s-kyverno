@@ -1,0 +1,30 @@
+= HISTORIAL DE LOGS
+
+=== LOG 0  ===
+
+
+*Mensaje*:  validation error: Necesitas la etiqueta `departamento` con el valor `produccion` en los nuevos namespaces que vayas a crear. Rule requiere-ns-etiqueta-dept failed at path /metadata/labels/departamento/
+
+*Politica*:  requiere-ns-etiqueta-dept
+
+*Tipo de objeto afectado*:  Namespace
+
+*Nombre de objeto afectado*:  prueba2
+
+*Fecha de creacion*:  2022-04-20T07:54:50Z
+
+
+=== LOG 1  ===
+
+
+*Mensaje*:  validation error: Necesitas la etiqueta `departamento` con el valor `produccion` en los nuevos namespaces que vayas a crear. Rule requiere-ns-etiqueta-dept failed at path /metadata/labels/departamento/
+
+*Politica*:  requiere-ns-etiqueta-dept
+
+*Tipo de objeto afectado*:  Namespace
+
+*Nombre de objeto afectado*:  prueba1
+
+*Fecha de creacion*:  2022-04-20T07:54:48Z
+
+
