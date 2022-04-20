@@ -16,6 +16,8 @@ Bienvenido al TFG sobre la implementación del motor de políticas Kyverno en k8
   - [Generación](#generación).
 - [Policy Reporter UI](#policy-reporter-UI).
   - [Instalación](#instalación).
+  - [Funcionamiento](#funcionamiento).
+
 
 
 ### ¿Que es Kyverno?
@@ -505,4 +507,11 @@ Y solo tendrías que configurarte una entrada en el `/etc/hosts` de tu máquina 
 ```
 
 Si quieres cambiar la dirección, deberás modificar el fichero `ingress.yaml` y especificar la que quieras.
+
+
+#### Funcionamiento
+
+Una vez instalado, podremos acceder a la URL que hemos añadido en nuestro /etc/hosts a través de un navegador web,y nos mostrará el Dashboard de Policy Reporter UI:
+
+![policy reporter ui](https://github.com/megandil/k8s-kyverno/blob/main/images/policy-reporter-ui.png)
 
