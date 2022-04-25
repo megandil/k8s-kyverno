@@ -515,6 +515,9 @@ Una vez instalado, podremos acceder a la URL que hemos añadido en nuestro /etc/
 
 ![policy reporter ui](https://github.com/megandil/k8s-kyverno/blob/main/images/policy-reporter-ui.png)
 
+##### Dashboard
+
+
 Como puedes ver, en el dashboard lo que nos aparecen son los elementos del cluster que inflingen las políticas aplicadas de Kyverno, en este caso podemos observar que al namespace "temperaturas" le falta la etiqueta obligatoria "departamento" con el valor "produccion", así que lo primero que haremos será solucionar ese problema y comprobar que desaparece el error del dashboard:
 
 ```
@@ -525,3 +528,16 @@ Como puedes ver, en el dashboard lo que nos aparecen son los elementos del clust
 Comprobamos que se ha eliminado el error del dashboard (funciona en tiempo real):
 
 ![policy reporter sin errores](https://github.com/megandil/k8s-kyverno/blob/main/images/reporter-sin-errores.png)
+
+La siguiente prueba a realizar será crear un namespace sin esa etiqueta para ver como aparece en el dashboard y se genera un log de error en la página "Logs":
+
+```
+kubectl create ns prueba1
+```
+
+![reporta error](https://github.com/megandil/k8s-kyverno/blob/main/images/reporta-error.png)
+
+Y se genera un log:
+
+![log error](https://github.com/megandil/k8s-kyverno/blob/main/images/log-error.png)
+
