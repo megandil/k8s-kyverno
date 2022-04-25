@@ -21,6 +21,8 @@ Bienvenido al TFG sobre la implementación del motor de políticas Kyverno en k8
     - [Policy Reports](#policy-reports).
     - [ClusterPolicy Reports](#clusterpolicy-reports).
     - [Logs](#logs).
+    - [Kyverno Policies](#kyverno-policies).
+
 
 
 
@@ -570,3 +572,10 @@ En esta página podremos ver los logs de las políticas de validación de tipo "
 ![logs](https://github.com/megandil/k8s-kyverno/blob/main/images/logs.png)
 
 Más adelante mostraré una manera de comunicarnos con la API de Policy Reporter UI para obtener los logs en formato JSON para poder trabajar con ellos.
+
+##### Kyverno Policies
+
+Nos muestra todas las políticas aplicadas divididas en categorías y tipo, dependiendo del que tengan asignado, las categorías las podríamos crear nosotros mismos, sin embargo los tipos son fijos, como ya vimos anteriormente.
+
+![kyervno policies](https://github.com/megandil/k8s-kyverno/blob/main/images/kyverno-plugin.png)
+
