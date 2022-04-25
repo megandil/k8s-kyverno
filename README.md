@@ -18,6 +18,8 @@ Bienvenido al TFG sobre la implementación del motor de políticas Kyverno en k8
   - [Instalación](#instalación).
   - [Funcionamiento](#funcionamiento).
     - [Dashboard](#dashboard).
+    - [Policy Reports](#policy-reports).
+
 
 
 
