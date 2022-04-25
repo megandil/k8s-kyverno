@@ -560,3 +560,11 @@ Aquí encontraremos los elementos que cumplan o no las políticas de tipo "Clust
 ![clusterpolicy-reports](https://github.com/megandil/k8s-kyverno/blob/main/images/clusterpolicy-reports.png)
 
 Como puedes ver, aparece que el namespace que creamos anteriormente "prueba1" no cumple la política ya que requiere de una etiqueta "departamento" con el valor "produccion".
+
+##### Logs
+
+En esta página podremos ver los logs de las políticas de validación de tipo "audit", ya que cualquier elemento que no cumpla la política se creará, pero se informará a través de un log de Policy Reporter UI:
+
+![logs](https://github.com/megandil/k8s-kyverno/blob/main/images/logs.png)
+
+Más adelante mostraré una manera de comunicarnos con la API de Policy Reporter UI para obtener los logs en formato JSON para poder trabajar con ellos.
