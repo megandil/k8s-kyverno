@@ -5,6 +5,7 @@ metadata:
   annotations:
     policies.kyverno.io/title: Add Quota
     policies.kyverno.io/category: Multi-Tenancy
+    policies.kyverno.io/type: generation
     policies.kyverno.io/subject: ResourceQuota, LimitRange
     policies.kyverno.io/description: >-
       Para tener un mayor control sobre el numero de recursos creados en un namespace es recomendable
