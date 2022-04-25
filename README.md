@@ -548,6 +548,13 @@ Y se genera un log:
 
 En esa página podemos ver qué elementos de nuestro cluster cumplen las políticas de validación tipo "enforce" y cuáles no:
 
-![log error](https://github.com/megandil/k8s-kyverno/blob/main/images/policy-reports.png)
+![policyreports](https://github.com/megandil/k8s-kyverno/blob/main/images/policy-reports.png)
 
 Esto se utiliza ya que si tenemos el parámetro "background" con el valor "true" nos dice qué elementos cumplen las políticas aplicadas recientemente, dedicado a aquellos elementos creados anteriormente a la política. Con esta función podemos pulir nuestro entorno y reforzar la seguridad del mismo.
+
+##### ClusterPolicy Reports
+Aquí encontraremos los elementos que cumplan o no las políticas de tipo "ClusterPolicy" , en este caso, de tipo ClusterPolicy solo tenemos la política "requiere-ns-etiqueta-dept":
+
+![clusterpolicy-reports](https://github.com/megandil/k8s-kyverno/blob/main/images/clusterpolicy-reports.png)
+
+Como puedes ver, aparece que el namespace que creamos anteriormente "prueba1" no cumple la política ya que requiere de una etiqueta "departamento" con el valor "produccion".
