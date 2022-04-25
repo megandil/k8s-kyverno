@@ -548,4 +548,4 @@ En esa página podemos ver qué elementos de nuestro cluster cumplen las políti
 
 ![log error](https://github.com/megandil/k8s-kyverno/blob/main/images/policy-reports.png)
 
-Esto se utiliza ya que si tenemos el parámetro "background" con el valor "true" nos dice qué elementos cumplen las políticas aplicadas recientemente, dedicado a aquellos elementos creados anteriormente a la política, con esta función podemos pulir nuestro entorno y reforzar la seguridad del mismo.
+Esto se utiliza ya que si tenemos el parámetro "background" con el valor "true" nos dice qué elementos cumplen las políticas aplicadas recientemente, dedicado a aquellos elementos creados anteriormente a la política. Con esta función podemos pulir nuestro entorno y reforzar la seguridad del mismo.
