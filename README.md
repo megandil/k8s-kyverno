@@ -22,10 +22,7 @@ Bienvenido al TFG sobre la implementación del motor de políticas Kyverno en k8
     - [ClusterPolicy Reports](#clusterpolicy-reports).
     - [Logs](#logs).
     - [Kyverno Policies](#kyverno-policies).
-
-
-
-
+    - [Kyverno VerifyImages](#kyverno-verifyimages).
 
 
 
@@ -578,4 +575,9 @@ Más adelante mostraré una manera de comunicarnos con la API de Policy Reporter
 Nos muestra todas las políticas aplicadas divididas en categorías y tipo, dependiendo del que tengan asignado, las categorías las podríamos crear nosotros mismos, sin embargo los tipos son fijos, como ya vimos anteriormente.
 
 ![kyervno policies](https://github.com/megandil/k8s-kyverno/blob/main/images/kyverno-plugin.png)
+
+
+##### Kyverno VerifyImages
+
+En este apartado podemos ver si las políticas "VerifyImages" se están cumpliendo, estas políticas se utilizan cuando quieres que una imagen provenga de un sitio/persona/grupo concreto, de manera que obtenemos una mayor fiabilidad.
 
