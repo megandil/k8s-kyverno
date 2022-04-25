@@ -1,0 +1,27 @@
+apiVersion: kyverno.io/v1
+# El kind `ClusterPolicy` indica que la política se configura en todo el cluster.
+kind: ClusterPolicy
+metadata:
+  name: requiere-ns-etiqueta-dept
+# En `spec` definimoslas propiedades de la política.
+spec:
+  # El parámetro `validationFailureAction` le dice a Kyverno si permite las peticiones pero las reporta (`audit`) o las bloquea (`enforce`).
+  validationFailureAction: enforce
+  # En el parámetro `rules` configuramos una o más reglas que se deben cumplir.
+  rules:
+  - name: requiere-ns-etiqueta-dept
+    # En el parámetro `match` declaramos los recursos sobre los que se aplica la política. En este caso en cualquier Namespace.
+    match:
+      any:
+      - resources:
+          kinds:
+          - Namespace
+    # En el parámetro `validate` definimos la regla que se comparará con el recurso. Si lo configurado comparado con el recurso resulta ser verdadero, entonces se permite la petición y se ejecuta, en cambio, si es falsa, se bloquea (dependiendo de "validationFailureAction").
+    validate:
+      # En `message` definimos el mensaje que queremos que muestre en caso de que la regla no se cumpla.
+      message: "Necesitas la etiqueta `departamento` con el valor `produccion` en los nuevos namespaces que vayas a crear."
+      # En `pattern` definimos el patrón que será validado en el recurso. En este caso, apuntamos a `metadata.labels` con `departamento=produccion`.
+      pattern:
+        metadata:
+          labels:
+            departamento: produccion
