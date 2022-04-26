@@ -601,3 +601,14 @@ Logs antes de ser tratados cogidos directamentes desde la API:
 Logs después de ejecutar el script exportado a formato PDF con Asciidoc:
 
 ![logs-despues](https://github.com/megandil/k8s-kyverno/blob/main/images/logs-despues.png)
+
+
+
+Puedes ejecutar este script y utilizarlo, para ello ejecuta el ".sh" del directorio `/json2pdf` de este repositorio.
+
+Los requerimientos son los siguientes:
+
+* Python 3.9.2
+* Asciidoc
+* Asciidoctor-pdf
+
