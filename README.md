@@ -23,6 +23,8 @@ Bienvenido al TFG sobre la implementación del motor de políticas Kyverno en k8
     - [Logs](#logs).
     - [Kyverno Policies](#kyverno-policies).
     - [Kyverno VerifyImages](#kyverno-verifyimages).
+- [Exportar Logs a PDF](#exportar-logs-a-pdf).
+
 
 
 
