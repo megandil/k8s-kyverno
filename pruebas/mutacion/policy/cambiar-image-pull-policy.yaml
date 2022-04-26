@@ -14,7 +14,7 @@ spec:
         patchStrategicMerge:
           spec:
             containers:
-              # match images which end with :latest
+              # Busca Pods que utilicen la imagen con versión "latest"
               - (image): "*:latest"
-                # set the imagePullPolicy to "IfNotPresent"
+                # Cambia el parámetro "imagePullPolicy" con el valor "IfNotPresent"
                 imagePullPolicy: "IfNotPresent"
