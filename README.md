@@ -24,6 +24,14 @@ Bienvenido al TFG sobre la implementación del motor de políticas Kyverno en k8
     - [Kyverno Policies](#kyverno-policies).
     - [Kyverno VerifyImages](#kyverno-verifyimages).
 - [Exportar Logs a PDF](#exportar-logs-a-pdf).
+- [Escenario Final](#escenario-final).
+  - [Estructura ArgoCD](#estructura-argocd).
+  - [Política Kyverno](#políticas-kyverno).
+  - [Sync-Waves](#sync-waves).
+  - [Intención Final](#intención-final).
+
+
+
 
 
 
@@ -675,12 +683,12 @@ El orden funcionaría de menor a mayor, es decir, se desplegará antes la aplica
 
 La intención es montar el escenario de forma automática sin errores y procurar que la aplicación "temp-app" cumpla las políticas sin ningún problema. Para ello deberemos:
 
-1. Desplegar su Namespace anteriormente con las etiquetas necesarias.
+* Desplegar su Namespace anteriormente con las etiquetas necesarias.
 
-2. Deberemos crear un ingress en vez de usar servicios nodeport ya que se encuentran bloqueados.
+* Deberemos crear un ingress en vez de usar servicios nodeport ya que se encuentran bloqueados.
 
-3. Si utilizamos imágenes con versión "latest" debemos tener en cuenta de que la política de mutación nos cambiará el "ImagePullPolicy".
+* Si utilizamos imágenes con versión "latest" debemos tener en cuenta de que la política de mutación nos cambiará el "ImagePullPolicy".
 
-4. Verificar los recursos que asigna a los pods ya que existe una regla que se encarga de ello y puede que los recursos no sean suficientes.
+* Verificar los recursos que asigna a los pods ya que existe una regla que se encarga de ello y puede que los recursos no sean suficientes.
 
 Todas los pasos mencionados los he contemplado en este escenario para que cada regla cumplan su función y se pueda ver su funcionamiento a nivel didáctico, pero siempre se puede modificar a modo de curiosidad y comprobar qué ocurre.
