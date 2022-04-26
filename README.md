@@ -634,3 +634,53 @@ En ArgoCD tendremos 4 apps:
 * **policy-reporter-ui-app**: Esta aplicación instala Policy Reporter y su herramienta gráfica Policy Reporter UI y mediante un ingress añadido nos permite acceso mediante la URL "http://www.policy-reporter.org". El webhook apunta a los ficheros YAML alojados en carpeta `/policy-reporter-ui-app` del repositorio especificado anteriormente.
 
 * **temp-app**: Esta app despliega la aplicación "Temperaturas" creada por IESGN, tanto el [frontend](https://hub.docker.com/r/iesgn/temperaturas_frontend) como el [backend](https://hub.docker.com/r/iesgn/temperaturas_backend). El webhook apunta a los ficheros YAML alojados en carpeta `/temp-app` del repositorio especificado anteriormente.
+
+
+![argocd](https://github.com/megandil/k8s-kyverno/blob/main/images/argocd.png)
+
+
+#### Políticas Kyverno
+
+Las políticas aplicadas para el escenario y que por lo tanto, deberán cumplir los elementos del cluster son las siguientes:
+
+* **block-nodeport**: Política que contiene regla de tipo "Validación" configurada en "enforce", que no permitirá la creación de servicios nodeport.
+
+* **cambiar-image-pull-policy**: Esta política contiene una regla de tipo "mutación", que cuando detecte que un pod utiliza una imagen con versión "latest" cambiara su parámetro "ImagePullPolicy" a el valor "IfNotPresent", con la intención de no descargar la imagen repetidas veces de forma innecesaria.
+
+* **quota-ns**: Política conformada por una regla de tipo "generación", que aplica unas quotas y limitrange al crear cualquier namespace.
+
+* **req-ns-etiqueta-dept**: Esta política se encuentra conformada por una regla de tipo "validación" configurada en "audit" a modo de auditoría. Informará cuando un namespace no contenga la etiqueta "departamento" con el valor "produccion". Esta regla la usaremos para comprobar el uso de logs en Policy Reporter UI así como el script que hemos creado anteriormente para exportar a PDF.
+
+#### Sync-Waves
+
+Es muy importante que las aplicaciones se desplieguen en el orden correcto, ya que por ejemplo, no podemos desplegar la aplicación sin crear su namespace antes, o no podemos desplegar Policy Reporter UI sin haber instalado Kyverno antes, para ello utilizaremos un sistema de prioridades de ArgoCd llamado "Sync-Waves".
+
+Las **Sync-Waves**  nos ayudan a desplegar las diferentes aplicaciones en un orden deseado por el usuario, mediante anotaciones configuradas en los manifiestos de las apps. Su sintáxis es la siguiente:
+
+```
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+```
+
+El orden funcionaría de menor a mayor, es decir, se desplegará antes la aplicación con valor "1" que la de valor "2". En mi caso, solo he tenido que utilizar "Sync-Waves" en la aplicación "Control-apps" ya que es la encargada de desplegar las diferentes aplicaciones y namespaces, y el orden sería el siguiente:
+
+1. Kyverno-app
+2. Policy-reporter-ui-app
+3. Namespace personalizado de temp-app (necesita tener la etiqueta "departamento")
+4. Temp-app
+
+
+#### Intención Final
+
+La intención es montar el escenario de forma automática sin errores y procurar que la aplicación "temp-app" cumpla las políticas sin ningún problema. Para ello deberemos:
+
+1. Desplegar su Namespace anteriormente con las etiquetas necesarias.
+
+2. Deberemos crear un ingress en vez de usar servicios nodeport ya que se encuentran bloqueados.
+
+3. Si utilizamos imágenes con versión "latest" debemos tener en cuenta de que la política de mutación nos cambiará el "ImagePullPolicy".
+
+4. Verificar los recursos que asigna a los pods ya que existe una regla que se encarga de ello y puede que los recursos no sean suficientes.
+
+Todas los pasos mencionados los he contemplado en este escenario para que cada regla cumplan su función y se pueda ver su funcionamiento a nivel didáctico, pero siempre se puede modificar a modo de curiosidad y comprobar qué ocurre.
