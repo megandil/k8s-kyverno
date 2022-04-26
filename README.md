@@ -581,3 +581,21 @@ Nos muestra todas las políticas aplicadas divididas en categorías y tipo, depe
 
 En este apartado podemos ver si las políticas "VerifyImages" se están cumpliendo, estas políticas se utilizan cuando quieres que una imagen provenga de un sitio/persona/grupo concreto, de manera que obtenemos una mayor fiabilidad.
 
+
+### Exportar Logs a PDF
+
+Una función que estaría interesante implementar sería la exportación de logs a documento PDF a modo de documentación.
+
+Para hacer esto haremos uso de Python, JSON, shell, Asciidoc y API de Policy Reporter UI que será a la que realicemos las peticiones y nos devolverá los logs correspondientes en formato JSON, el cuál tendremos que tratar con Python para que sea legible.
+
+Tras conseguir extraer el texto de forma legible, tendremos que darle el formato correspondiente en Asciidoc, y posteriormente con Asciidoctor exportarlo a PDF, todo esto ejecutado por un script bash.
+
+Gracias a esta implementación que he realizado podemos conseguir lo siguiente:
+
+Logs antes de ser tratados cogidos directamentes desde la API:
+
+![logs-antes](https://github.com/megandil/k8s-kyverno/blob/main/images/logs-antes.png)
+
+Logs después de ejecutar el script exportado a formato PDF con Asciidoc:
+
+![logs-despues](https://github.com/megandil/k8s-kyverno/blob/main/images/logs-despues.png)

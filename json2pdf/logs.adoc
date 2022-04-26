@@ -11,7 +11,7 @@
 
 *Nombre de objeto afectado*:  prueba2
 
-*Fecha de creacion*:  2022-04-20T07:54:50Z
+*Fecha de creacion*:  2022-04-26T09:09:40Z
 
 
 === LOG 1  ===
@@ -25,6 +25,20 @@
 
 *Nombre de objeto afectado*:  prueba1
 
-*Fecha de creacion*:  2022-04-20T07:54:48Z
+*Fecha de creacion*:  2022-04-26T09:09:39Z
+
+
+=== LOG 2  ===
+
+
+*Mensaje*:  validation error: Necesitas la etiqueta `departamento` con el valor `produccion` en los nuevos namespaces que vayas a crear. Rule requiere-ns-etiqueta-dept failed at path /metadata/labels/departamento/
+
+*Politica*:  requiere-ns-etiqueta-dept
+
+*Tipo de objeto afectado*:  Namespace
+
+*Nombre de objeto afectado*:  prueba1
+
+*Fecha de creacion*:  2022-04-26T09:09:20Z
 
 
