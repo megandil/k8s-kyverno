@@ -1,11 +1,15 @@
+# Cargamos librerías necesarias.
 import urllib.request, json
+# Definimos la URL de la que queremos obtener el JSON.
 with urllib.request.urlopen("http://www.policy-reporter.org/api/result-log") as fichero:
+# Leemos el contenido del fichero.
     datos=json.load(fichero)
 mensajes=[]
 politicas=[]
 kinds=[]
 nombrekinds=[]
 times=[]
+# Recorremos el JSON.
 for i in datos:
     mensaje=i.get("message")
     mensajes.append(mensaje)
@@ -20,6 +24,7 @@ for i in datos:
 
 print("= HISTORIAL DE LOGS")
 print()
+# Imprimimos los resultados con formato Adoc.
 for o,i,a,b,c,d in zip(range(len(mensajes)),mensajes,politicas,kinds,nombrekinds,times):
     print('=== LOG' ,o,' ===')
     print()
