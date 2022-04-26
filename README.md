@@ -612,3 +612,25 @@ Los requerimientos son los siguientes:
 * Asciidoc
 * Asciidoctor-pdf
 
+
+### Escenario Final
+
+Para el escenario final he decidido utilizar ArgoCD como herramienta GitOps de entrega continua para desplegar las diferentes aplicaciones, en concreto 3:
+
+* Kyverno (instalación y políticas)
+* Policy Reporter UI
+* Aplicación Temperaturas
+
+Con esto conseguimos que simplemente almacenando los manifiestos de las diferentes aplicaciones en Github se desplieguen gracias a ArgoCD. El repositorio donde se encuentran los diferentes manifiestos es el [siguiente](https://github.com/megandil/kyverno-argocd)
+
+#### Estructura ArgoCD
+
+En ArgoCD tendremos 4 apps:
+
+* Control-apps: Aplicación encargada de generar otras apps, en concreto las apps restantes que se encuentran bajo esta (kyverno, policy reporter...). Su webhook se encuentra apuntando a la carpeta `/apps` del repositorio especificado anteriormente y se encargará de desplegar los manifiestos (apps y namespaces).
+
+* Kyverno-app: Esta aplicación la despliega "control-apps" y realiza la instalación de kyverno y las políticas que tengamos configuradas. Su webhook apunta a los manifiestos YAML tanto de la instalación como la de sus políticas, y  se encuentran en la carpeta `/kyverno-app` del repositorio especificado anteriormente.
+
+* policy-reporter-ui-app: Esta aplicación instala Policy Reporter y su herramienta gráfica Policy Reporter UI y mediante un ingress añadido nos permite acceso mediante la URL "http://www.policy-reporter.org". El webhook apunta a los ficheros YAML alojados en carpeta `/policy-reporter-ui-app` del repositorio especificado anteriormente.
+
+* temp-app: Esta app despliega la aplicación "Temperaturas" creada por IESGN, tanto el [frontend](https://hub.docker.com/r/iesgn/temperaturas_frontend) como el [backend](https://hub.docker.com/r/iesgn/temperaturas_backend). El webhook apunta a los ficheros YAML alojados en carpeta `/temp-app` del repositorio especificado anteriormente.
